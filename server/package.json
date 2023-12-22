@@ -1,0 +1,39 @@
+{
+  "name": "mail.cranelux.com",
+  "version": "1.0.0",
+  "description": "\"Email client for managing cranelux email marketing endeavors\"",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\"https://github.com/Manuel-Smith/craneluxmailserver.git\""
+  },
+  "keywords": [
+    "[\"cranelux\"",
+    "\"mail",
+    "server\"",
+    "\"email",
+    "marketing\"",
+    "\"nodejs\"",
+    "\"react\"]"
+  ],
+  "author": "\"Manuel Riddick Smith\"",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "datetime": "^0.0.3",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "moment": "^2.29.4",
+    "nodemailer": "^6.9.7",
+    "pg": "^8.11.3",
+    "uid": "^2.0.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
