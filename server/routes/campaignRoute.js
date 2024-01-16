@@ -1,11 +1,10 @@
 const router = require('express').Router();
+const campaignController = require('../controllers/campaignController')
 
 
-router.get("/", async(req, res)=>{
-})
+router.get("/", campaignController.getCampaign)
 
-router.post("/", async(req, res)=>{
-})
+router.post("/", campaignController.createCampaign)
 
 router.delete("/", async(req, res)=>{
 })

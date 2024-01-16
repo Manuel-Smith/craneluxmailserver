@@ -11,7 +11,7 @@ let jsonBodyParser = bodyParser.json();
 
 // Importing Routes
 const audienceRoute = require('./routes/audienceRoute');
-// const campaignRoute = require('./routes/campaignRoute');
+const campaignRoute = require('./routes/campaignRoute');
 // const settingsRoute = require('./routes/settingsRoute');
 const profileRoute = require('./routes/profileRoute');
 const loginRoute = require('./routes/loginRoute')
@@ -33,7 +33,7 @@ app.get("/", (req, res)=>{
 
 // Middleware to serve json files
 app.use("/audience", jsonBodyParser, audienceRoute);
-// app.use("/campaign", campaignRoute);
+app.use("/campaign", jsonBodyParser, campaignRoute);
 // app.use("/settings", settingsRoute);
 app.use("/profile", profileRoute);
 app.use("/subscribers", subscribersRoute);
