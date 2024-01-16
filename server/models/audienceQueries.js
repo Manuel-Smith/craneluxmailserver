@@ -3,5 +3,6 @@ const selectAudience = "SELECT * FROM audience WHERE user_id = $1"
 const ifAudienceExists = "SELECT * FROM audience WHERE user_id = $1 AND audience_id = $2"
 const deleteAudience = "DELETE FROM audience WHERE user_id = $1 AND audience_id = $2"
 const updateAudience = "UPDATE audience SET audience_name= $1 WHERE audience_id= $2 AND user_id= $3"
+const selectOneAudience = "SELECT * FROM audience WHERE user_id = $1 and audience_id = $2"
 
-module.exports = {insertAudience, selectAudience, deleteAudience, ifAudienceExists, updateAudience}
+module.exports = {insertAudience, selectAudience, deleteAudience, ifAudienceExists, updateAudience, selectOneAudience}

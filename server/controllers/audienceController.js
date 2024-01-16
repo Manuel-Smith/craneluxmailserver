@@ -1,6 +1,7 @@
 const audienceQueries = require('../models/audienceQueries')
 const { v4: uuidv4 } = require('uuid');
-const pool = require('../db')
+const pool = require('../db');
+const { json } = require('body-parser');
 
 
 const createAudience = async (req, res)=>{
@@ -9,7 +10,13 @@ const createAudience = async (req, res)=>{
         let userId=req.query.userId
         let audienceId=req.query.audienceId
         let description = req.body.description
-        let audienceName = req.body.audience_name
+        let audienceName = req.body.audienceName
+        console.log({
+            userId,
+            newAudienceId,
+            description,
+            audienceName
+        })
         await pool.query(audienceQueries.ifAudienceExists, [userId, audienceId], (error, result)=>{
             if(result.rows.length > 0){
                 res.status(409).json({
@@ -33,9 +40,42 @@ const createAudience = async (req, res)=>{
 const getAudience = async (req, res)=>{
     try {
         let userId=req.query.userId
-        await pool.query(audienceQueries.selectAudience, [userId], (error, result)=>{
-            res.status(200).json(result.rows);
-        })
+        let audienceId = req.query.audienceId
+        if(userId && audienceId){
+            await pool.query(audienceQueries.selectOneAudience, [userId, audienceId], (error, result)=>{
+                let responseJson = {
+                    "userId": result.rows[0].user_id,
+                    "audienceId": result.rows[0].audience_id,
+                    "audienceName": result.rows[0].audience_name,
+                    "description": result.rows[0].description
+                }
+                res.status(200).json(responseJson);
+            })
+            return;
+        } else if(userId){
+            await pool.query(audienceQueries.selectAudience, [userId], (error, result)=>{
+                let arrayLength = result.rows.length;
+                let resultArray = new Array;
+                if (arrayLength){
+                    for(let i = 0; i < arrayLength; i++){
+                        let responseJson = {
+                            "userId": result.rows[i].user_id,
+                            "audienceId": result.rows[i].audience_id,
+                            "audienceName": result.rows[i].audience_name,
+                            "description": result.rows[i].description
+                        }
+                        resultArray.push(responseJson);
+                    }
+                    res.status(200).json(resultArray);
+                    return;
+                } else {
+                    res.status(200).json("The audience list is empty");
+                }
+                
+            })
+        } else {
+            res.status(200).json("The resource retrieved does")
+        }
     } catch (error) {
         console.log(error.body)
     }

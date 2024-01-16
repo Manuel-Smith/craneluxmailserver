@@ -1,7 +1,6 @@
 const audienceController = require('../controllers/audienceController')
 const router = require('express').Router();
 
-
 router.get("/", audienceController.getAudience)
 
 router.post("/", audienceController.createAudience)
