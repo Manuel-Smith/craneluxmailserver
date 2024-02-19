@@ -16,6 +16,7 @@ const campaignRoute = require('./routes/campaignRoute');
 const profileRoute = require('./routes/profileRoute');
 const loginRoute = require('./routes/loginRoute')
 const subscribersRoute = require('./routes/subscribersRoute');
+const emailRoute = require('./routes/emailRoute');
 // const analyticsRoute = require('./routes/analyticsRoute');
 
 
@@ -34,6 +35,7 @@ app.get("/", (req, res)=>{
 // Middleware to serve json files
 app.use("/audience", jsonBodyParser, audienceRoute);
 app.use("/campaign", jsonBodyParser, campaignRoute);
+app.use("/mail", jsonBodyParser, emailRoute);
 // app.use("/settings", settingsRoute);
 app.use("/profile", profileRoute);
 app.use("/subscribers", subscribersRoute);

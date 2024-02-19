@@ -46,6 +46,8 @@ const getCampaign = async (req, res)=>{
         const pageNumber = req.body.page
         const offSet = (pageNumber-1)*pageSize
 
+        console.log(userId);
+
         if(userId && campaignId){
 
             const result = await pool.query(campaignQueries.selectOneCampaign, [userId, campaignId]);
