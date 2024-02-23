@@ -1,4 +1,4 @@
-const { query } = require('express');
+// const { query } = require('express');
 const pool = require('../db'); // Assuming connection pooling is implemented
 const mailQueries = require("../models/sendEmailQueries");
 const { Readable, Writable } = require('stream');
@@ -53,13 +53,19 @@ function createWritableStream(userId, campaignId) {
             campaignStatus: row.campaign_status
             }
 
-
-      console.log('Received chunk', campaignData);
       // Handle data (e.g., send email)
-      // ...
       try {
         // Send email or perform other actions
         // ...
+
+            const connection = await connect('amqp://192.168.100.41:5672');
+            const channel = await connection.createChannel();
+            const buffer = Buffer.from(JSON.stringify(campaignData));
+            const queue = 'campaigns'
+    
+            await channel.assertQueue(queue, {durable: false})
+            channel.sendToQueue(queue, buffer);
+            await channel.close();
       } catch (err) {
         console.error('Error processing chunk:', err);
         // Handle errors appropriately (e.g., log, retry, inform caller)
@@ -100,7 +106,7 @@ async function sendEmail(req, res) {
             campaignStatus: row.campaign_status
             }
 
-            const connection = await connect('amqp://localhost');
+            const connection = await connect('amqp://192.168.100.41:5672');
             const channel = await connection.createChannel();
             const buffer = Buffer.from(JSON.stringify(campaignData));
             const queue = 'testCampaign'

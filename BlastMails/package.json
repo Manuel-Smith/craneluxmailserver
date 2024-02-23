@@ -1,0 +1,19 @@
+{
+  "name": "blastmails",
+  "version": "1.0.0",
+  "description": "Subscribing to rabbitmq and publishing the emails to MailCow",
+  "main": "index.js",
+  "scripts": {
+    "test": "serve"
+  },
+  "keywords": [
+    "[\"Mail",
+    "server\"]"
+  ],
+  "author": "Manuel Smith",
+  "license": "MIT",
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "express": "^4.18.2"
+  }
+}
