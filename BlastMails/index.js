@@ -1,10 +1,11 @@
 const express = require('express');
 const { connect } = require('amqplib')
+require('dotenv').config();
 
 const app = express();
 
 async function consumeTestCampaigns() {
-    const connection = await connect("amqp://192.168.100.27:5672");
+    const connection = await connect(process.env.RABBITMQ_NODE);
     const channel = await connection.createChannel();
     const queue = "testCampaign";
     await channel.assertQueue(queue, { durable: false });
@@ -25,7 +26,7 @@ async function consumeTestCampaigns() {
   consumeTestCampaigns();
 
   async function consumeCampaigns() {
-    const connection = await connect("amqp://192.168.100.40:5672");
+    const connection = await connect(process.env.RABBITMQ_NODE);
     const channel = await connection.createChannel();
     const queue = "campaigns";
     await channel.assertQueue(queue, { durable: false });

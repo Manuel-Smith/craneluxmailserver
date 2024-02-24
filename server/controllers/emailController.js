@@ -1,9 +1,9 @@
-// const { query } = require('express');
 const pool = require('../db'); // Assuming connection pooling is implemented
 const mailQueries = require("../models/sendEmailQueries");
 const { Readable, Writable } = require('stream');
 const { error } = require('console');
 const { connect } = require('amqplib')
+require('dotenv').config();
 
 
 async function createReadableStream() {
@@ -58,7 +58,7 @@ function createWritableStream(userId, campaignId) {
         // Send email or perform other actions
         // ...
 
-            const connection = await connect('amqp://192.168.100.41:5672');
+            const connection = await connect(process.env.pro);
             const channel = await connection.createChannel();
             const buffer = Buffer.from(JSON.stringify(campaignData));
             const queue = 'campaigns'
@@ -82,7 +82,7 @@ async function sendEmail(req, res) {
     let userId = req.body.userId
     let campaignId = req.body.campaignId
     let testEmail = req.body.testEmail
-    const readableStream = await createReadableStream();
+    const readableStream = await createReadableStream(process.env.HAPROXY_VIRTUAL_IP_AND_PORT);
     const writableStream = createWritableStream(userId, campaignId);
 
     if(action=='send'){
@@ -106,7 +106,7 @@ async function sendEmail(req, res) {
             campaignStatus: row.campaign_status
             }
 
-            const connection = await connect('amqp://192.168.100.41:5672');
+            const connection = await connect(process.env.HAPROXY_VIRTUAL_IP_AND_PORT);
             const channel = await connection.createChannel();
             const buffer = Buffer.from(JSON.stringify(campaignData));
             const queue = 'testCampaign'
@@ -114,6 +114,7 @@ async function sendEmail(req, res) {
             await channel.assertQueue(queue, {durable: false})
             channel.sendToQueue(queue, buffer);
 
+            await channel.close();
         res.status(200).json({message: "Done Sending The Test Email. Check your inbox"})
         
     }
