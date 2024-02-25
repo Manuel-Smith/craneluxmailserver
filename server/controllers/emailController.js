@@ -50,7 +50,8 @@ function createWritableStream(userId, campaignId) {
             sentTime: null,
             campaignType: row.campaign_type,
             campaignGoal: row.campaign_goal,
-            campaignStatus: row.campaign_status
+            campaignStatus: row.campaign_status,
+            userId: row.user_id
             }
 
       // Handle data (e.g., send email)
@@ -86,6 +87,10 @@ async function sendEmail(req, res) {
     const writableStream = createWritableStream(userId, campaignId);
 
     if(action=='send'){
+      /**
+       * Update the database the time the campaign was sent. So, I must write sql queries in this section
+       * 
+       */
         readableStream.pipe(writableStream);
     }
 
@@ -103,7 +108,8 @@ async function sendEmail(req, res) {
             sentTime: null,
             campaignType: row.campaign_type,
             campaignGoal: row.campaign_goal,
-            campaignStatus: row.campaign_status
+            campaignStatus: row.campaign_status,
+            userId: row.user_id
             }
 
             const connection = await connect(process.env.HAPROXY_VIRTUAL_IP_AND_PORT);

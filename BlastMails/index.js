@@ -1,18 +1,25 @@
 const express = require('express');
 const { connect } = require('amqplib')
+const sendEmail = require('./sender')
 require('dotenv').config();
+const { error } = require('console');
+
 
 const app = express();
 
 async function consumeTestCampaigns() {
+
     const connection = await connect(process.env.RABBITMQ_NODE);
     const channel = await connection.createChannel();
     const queue = "testCampaign";
     await channel.assertQueue(queue, { durable: false });
     channel.consume(queue, (campaign) => {
       try {
+
+
         // Process campaign data efficiently
-        console.log(campaign.content.toString());
+        sendEmail(campaign.content.toString());
+        // console.log(campaign.content.toString());
         // ... additional processing tasks
   
         channel.ack(campaign); // Acknowledge after successful processing

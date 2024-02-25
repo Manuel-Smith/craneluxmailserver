@@ -29,6 +29,8 @@
     "datetime": "^0.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-useragent": "^1.0.15",
+    "geoip-lite": "^1.4.10",
     "moment": "^2.29.4",
     "nodemailer": "^6.9.7",
     "pg": "^8.11.3",
